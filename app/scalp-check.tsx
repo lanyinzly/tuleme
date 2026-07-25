@@ -488,7 +488,7 @@ export default function ScalpCheck() {
           {report.mode === "demo" && (
             <p className="demo-notice">
               当前展示的是可交互演示结果。部署环境配置
-              OPENAI_API_KEY 后，上传照片会进入真实的多视角视觉推理。
+              API_KEY 后，上传照片会进入真实的多视角视觉推理。
             </p>
           )}
 

@@ -177,7 +177,16 @@ async function callStructuredModel(args: {
   schema: object;
 }) {
   const model = process.env.OPENAI_MODEL || "gpt-5.6";
-  const response = await fetch("https://api.openai.com/v1/responses", {
+  const configuredBaseUrl =
+    process.env.BASE_URL ||
+    process.env.OPENAI_BASE_URL ||
+    "https://api.openai.com/v1";
+  const normalizedBaseUrl = configuredBaseUrl.replace(/\/+$/, "");
+  const responsesUrl = normalizedBaseUrl.endsWith("/responses")
+    ? normalizedBaseUrl
+    : `${normalizedBaseUrl}/responses`;
+
+  const response = await fetch(responsesUrl, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${args.apiKey}`,
@@ -224,7 +233,7 @@ async function callStructuredModel(args: {
 export async function analyzeScalpImages(
   request: AnalyzeRequest,
 ): Promise<ScalpReport> {
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.API_KEY || process.env.OPENAI_API_KEY;
   const images = request.images ?? [];
 
   if (request.demoRequested || !apiKey || images.length === 0) {
@@ -285,4 +294,3 @@ export async function analyzeScalpImages(
     return createDemoReport(request);
   }
 }
-

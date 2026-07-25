@@ -92,9 +92,14 @@ npm run dev
 要启用真实多模态分析，在 `.env.local` 中设置：
 
 ```bash
-OPENAI_API_KEY=your_key_here
+BASE_URL=https://api.openai.com/v1
+API_KEY=your_key_here
 OPENAI_MODEL=gpt-5.6
 ```
+
+`BASE_URL` 可以替换为兼容 OpenAI Responses API 的服务地址；如果地址已经以
+`/responses` 结尾，系统不会重复拼接路径。现有的 `OPENAI_BASE_URL` 和
+`OPENAI_API_KEY` 也继续兼容。
 
 不要把 API Key 提交到 GitHub，也不要在浏览器端调用模型。
 
@@ -114,7 +119,7 @@ POST /api/analyze
 - Structured Outputs / JSON Schema
 - 两个并行专项分析 + 一次最终校验
 
-如果没有配置 `OPENAI_API_KEY`，或者模型调用暂时失败，接口会返回带有 `mode: "demo"` 标记的演示报告，页面不会把它伪装成真实图像结论。
+如果没有配置 `API_KEY`（或兼容变量 `OPENAI_API_KEY`），或者模型调用暂时失败，接口会返回带有 `mode: "demo"` 标记的演示报告，页面不会把它伪装成真实图像结论。
 
 ## 项目结构
 
